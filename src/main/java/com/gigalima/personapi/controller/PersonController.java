@@ -9,7 +9,7 @@ public class PersonController {
 	
 	@RequestMapping
 	public String ola() {
-		return "Olá Projeto";
+		return "Olá, Projeto";
 	}
 
 }
