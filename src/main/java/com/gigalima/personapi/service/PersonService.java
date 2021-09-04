@@ -3,6 +3,8 @@ package com.gigalima.personapi.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.gigalima.personapi.exception.PersonNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +30,10 @@ public class PersonService {
 		Person persontoSave = personMapper.toModel(personDTO);
 
 		Person savedPerson = personRepository.save(persontoSave);
-		return MessageResponseDTO.builder().message("Created with ID " + 
-		savedPerson.getId()).build();
+		return MessageResponseDTO
+				.builder()
+				.message("Created with ID " + savedPerson.getId())
+				.build();
 	}
 
 	public List<PersonDTO> listAll() {
@@ -39,4 +43,9 @@ public class PersonService {
 				.collect(Collectors.toList());
 	}
 
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+		Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+
+		return personMapper.toDTO(person);
+    }
 }
