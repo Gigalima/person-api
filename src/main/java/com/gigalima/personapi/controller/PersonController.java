@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.gigalima.personapi.exception.PersonNotFoundException;
+import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,11 +42,16 @@ public class PersonController {
 		return personService.findById(id);
 	}
 
+	@PutMapping("/{id}")
+	public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+		return personService.updateById(id, personDTO);
+	}
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
 		personService.delete(id);
-		
+
 	}
 	
 }
